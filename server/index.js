@@ -14,7 +14,7 @@ const app = express();
 const PORT = process.env.PORT | 4000;
 
 const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.r9qov.mongodb.net/todoList?retryWrites=true&w=majority'
-app.use(express.static(path.resolve("./../client/build")));
+app.use(express.static(path.resolve("./build")));
 app.use(cors());
 app.use(bodyParser.json({ limit: '30mb', extended: false}));
 app.use('/lists',listRoute);
