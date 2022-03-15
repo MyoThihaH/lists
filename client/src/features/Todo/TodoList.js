@@ -4,15 +4,17 @@ import { useState } from "react";
 import { Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
+import MySkeleton from '../../components/Skeleton';
 import Divider from '@mui/material/Divider';
 
 import { Todo } from "./Todo";
-import { selectTodoIds, selectFilterIds, todoAllComplete, todoClearComplete, todoAllUnComplete, selectTodoDeleteSnack, todoDeleteSnack } from "./todoSlice";
+import { selectTodoIds, selectFilterIds, todoAllComplete, todoClearComplete, todoAllUnComplete, selectTodoDeleteSnack, todoDeleteSnack, selectStatus } from "./todoSlice";
 import { SnackBar } from "../../components/SnackBar";
+
 
 export const TodoList = () => {
    const todoIds = useSelector(selectFilterIds);
-
+   const status = useSelector(selectStatus);
    const [text, setText ] = useState("Mark All");
    const dispatch = useDispatch();
    const openSnack = useSelector(selectTodoDeleteSnack);
@@ -42,12 +44,7 @@ export const TodoList = () => {
        )
     })
    };
-   
- 
-
         return (
-           
-                
                 <Paper elevation={3} sx={{width:"80%", position:"relative", left:"148px", paddingTop:"20px",paddingBottom:"20px",margin:"10px",backgroundColor:"#dff5e5"}}>
                     <Grid container direction='column' rowSpacing={2} >
                         
@@ -62,8 +59,8 @@ export const TodoList = () => {
                             </Grid>
                         </Grid>
                         
-                       
-                            {renderTodos()}
+                        {(status == "pending")?<MySkeleton/>:renderTodos()}
+                            
                             <SnackBar
                                 color="black"
                                 message="Success Deleted Item"

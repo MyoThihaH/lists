@@ -67,6 +67,7 @@ const initialState = todoAdapter.getInitialState({open:false});
 
 const todoSlice = createSlice({
     name: 'todo',
+    status: 'default',
     initialState,
     reducers: {
         todoDeleteSnack: (state, action) => {
@@ -113,7 +114,14 @@ const todoSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        .addCase(fetchTodos.fulfilled, todoAdapter.setAll)
+        .addCase(fetchTodos.fulfilled, (state, action) => {
+            
+            todoAdapter.setAll(state, action);
+            state.status = "fullfilled";
+        })
+        .addCase(fetchTodos.pending, (state, action) => {
+            state.status = "pending";
+        })
         .addCase(todoAdd.fulfilled, (state, action) => {
             todoAdapter.addOne(state,action.payload)
         })
@@ -191,3 +199,5 @@ export const selectUnComplete = createSelector(
 //  )
 
 export const selectTodoDeleteSnack = (state) => state.todos.open;
+
+export const selectStatus = (state) => state.todos.status;
